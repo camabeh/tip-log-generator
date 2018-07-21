@@ -10,14 +10,14 @@ object Main {
     return "($thread) $msg";
   }
 
-  fun log(msg: String) {
+  fun log(): (String) -> Unit {
     val random = (Math.random() * 23).toInt()
-    when (random) {
-      in 0..2 -> log.error(msg)
-      in 3..6 -> log.warn(msg)
-      in 7..10 -> log.info(msg)
-      in 11..20 -> log.debug(msg)
-      else -> log.trace(msg)
+    return when (random) {
+      in 0..2 -> log::error
+      in 3..6 -> log::warn
+      in 7..10 -> log::info
+      in 11..20 -> log::debug
+      else -> log::trace
     }
   }
 
@@ -27,7 +27,8 @@ object Main {
     val timoutInSeconds = System.getenv("INTERVAL")?.toLong() ?: 1
 
     while (true) {
-      log(renderer(lorem.getWords(1), lorem.getWords(4, 15)))
+      val randomLevelLogger = log()
+      randomLevelLogger(renderer(lorem.getWords(1), lorem.getWords(4, 15)))
       Thread.sleep(1000 * timoutInSeconds)
     }
 
