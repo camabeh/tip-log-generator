@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory
 object Main {
   val log = LoggerFactory.getLogger(this::class.java.name)
 
-  fun renderer(thread: String, msg: String): String {
-    return "($thread) $msg";
+  fun renderer(thread: String, clazz: String, msg: String): String {
+    return "[$thread] ($clazz) $msg";
   }
 
   fun log(): (String) -> Unit {
@@ -28,7 +28,7 @@ object Main {
 
     while (true) {
       val randomLevelLogger = log()
-      randomLevelLogger(renderer(lorem.getWords(1), lorem.getWords(4, 15)))
+      randomLevelLogger(renderer(lorem.getWords(1), lorem.getWords(1), lorem.getWords(4, 15)))
       Thread.sleep(1000 * timoutInSeconds)
     }
 
