@@ -21,15 +21,26 @@ object Main {
     }
   }
 
+  fun throwException(allow: Boolean) {
+    try {
+      if (allow) {
+        throw RuntimeException("I am runtime exception")
+      }
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+  }
+
   @JvmStatic
   fun main(args: Array<String>) {
     val lorem = LoremIpsum.getInstance()
-    val timoutInSeconds = System.getenv("INTERVAL")?.toLong() ?: 1
+    val timeoutInSeconds = System.getenv("INTERVAL")?.toLong() ?: 1
 
     while (true) {
       val randomLevelLogger = log()
       randomLevelLogger(renderer(lorem.getWords(1), lorem.getWords(1), lorem.getWords(4, 15)))
-      Thread.sleep(1000 * timoutInSeconds)
+      throwException((Math.random() * 10).toInt() == 5)
+      Thread.sleep(1000 * timeoutInSeconds)
     }
 
   }
